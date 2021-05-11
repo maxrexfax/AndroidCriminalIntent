@@ -4,47 +4,47 @@ import java.util.Date;
 import java.util.UUID;
 
 public class Crime {
-    private UUID mId;
-    private String mTitle;
-    private Date mDate;
-    private boolean mSolved;
+    private UUID _Id;
+    private String _Title;
+    private Date _Date;
+    private boolean _Solved;
 
     public Crime() {
         // Генерирование уникального идентификатора
-        mId = UUID.randomUUID();
-        mDate = new Date();
+        _Id = UUID.randomUUID();
+        _Date = new Date();
     }
 
-    public UUID getmId() {
-        return mId;
+    public UUID getId() {
+        return _Id;
     }
 
-    public void setmId(UUID mId) {
-        this.mId = mId;
+    public void setId(UUID mId) {
+        this._Id = mId;
     }
 
-    public String getmTitle() {
-        return mTitle;
+    public String getTitle() {
+        return _Title;
     }
 
-    public void setmTitle(String mTitle) {
-        this.mTitle = mTitle;
+    public void setTitle(String mTitle) {
+        this._Title = mTitle;
     }
 
     public Date getDate() {
-        return mDate;
+        return _Date;
     }
 
     public void setDate(Date mDate) {
-        this.mDate = mDate;
+        this._Date = mDate;
     }
 
     public boolean isSolved() {
-        return mSolved;
+        return _Solved;
     }
 
     public void setSolved(boolean mSolved) {
-        this.mSolved = mSolved;
+        this._Solved = mSolved;
     }
 
 }
