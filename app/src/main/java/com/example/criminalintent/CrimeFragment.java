@@ -65,3 +65,9 @@ public class CrimeFragment extends Fragment {
         return v;
     }
 }
+
+class CrimeFragment1 extends Fragment {
+    public CrimeFragment1() {
+        super(R.layout.fragment_crime);
+    }
+}
