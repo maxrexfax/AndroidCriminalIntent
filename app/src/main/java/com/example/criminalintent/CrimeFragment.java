@@ -14,16 +14,33 @@ import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
 
+import java.util.UUID;
+
 public class CrimeFragment extends Fragment {
+
+    private static final String ARG_CRIME_ID = "crime_id";
+
     private Crime _Crime;
     private EditText _TitleField;
     private Button _DateButton;
     private CheckBox _SolvedCheckBox;
 
+    public static CrimeFragment newInstance(UUID crimeId) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_CRIME_ID, crimeId);
+
+        CrimeFragment fragment = new CrimeFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        _Crime = new Crime();
+        //UUID crimeId = (UUID) getActivity().getIntent().getSerializableExtra(CrimeActivity.EXTRA_CRIME_ID);
+        UUID crimeId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
+
+        _Crime = CrimeLab.get(getActivity()).getCrime(crimeId);
     }
 
     @Override
@@ -32,6 +49,7 @@ public class CrimeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_crime, container, false);
 
         _TitleField = (EditText)v.findViewById(R.id.crime_title);
+        _TitleField.setText(_Crime.getTitle());
         _TitleField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence c, int start, int count, int after) {
@@ -54,6 +72,8 @@ public class CrimeFragment extends Fragment {
         _DateButton.setEnabled(false);
 
         _SolvedCheckBox = (CheckBox)v.findViewById(R.id.crime_solved);
+        _SolvedCheckBox.setChecked(_Crime.isSolved());
+        
         _SolvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -63,11 +83,5 @@ public class CrimeFragment extends Fragment {
         });
 
         return v;
-    }
-}
-
-class CrimeFragment1 extends Fragment {
-    public CrimeFragment1() {
-        super(R.layout.fragment_crime);
     }
 }
