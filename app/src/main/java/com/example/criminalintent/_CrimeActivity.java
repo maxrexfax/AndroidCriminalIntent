@@ -2,13 +2,12 @@ package com.example.criminalintent;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import androidx.fragment.app.Fragment;
 
 import java.util.UUID;
 
-public class CrimeActivity extends SingleFragmentActivity {
+public class _CrimeActivity extends SingleFragmentActivity {
 
     private static final String TAG = "CrimeApp";
     public static final String EXTRA_CRIME_ID =
@@ -17,14 +16,14 @@ public class CrimeActivity extends SingleFragmentActivity {
     private final String TEXT_KEY = "Crime.App.Key";
 
     public static Intent newIntent(Context packageContext, UUID crimeId) {
-        Intent intent = new Intent(packageContext, CrimeActivity.class);
+        Intent intent = new Intent(packageContext, _CrimeActivity.class);
         intent.putExtra(EXTRA_CRIME_ID, crimeId);
         //Log.d(TAG, "CrimeActivity public static Intent newIntent crimeId=" + crimeId);
         return intent;
     }
 
     public static Intent newIntentFromCF(Context packageContext, String text) {
-        Intent intent = new Intent(packageContext, CrimeActivity.class);
+        Intent intent = new Intent(packageContext, _CrimeActivity.class);
         intent.putExtra(EXTRA_CRIME_TEXT, text);
         //Log.d(TAG, "CrimeActivity public static Intent newIntentFromCF text:" + text);
         return intent;

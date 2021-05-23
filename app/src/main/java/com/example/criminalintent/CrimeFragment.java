@@ -1,7 +1,6 @@
 package com.example.criminalintent;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -127,7 +126,7 @@ public class CrimeFragment extends Fragment {
     }
 
     public void returnResult() {
-        Intent intent = CrimeActivity.newIntentFromCF(getActivity(), "Test text from CrimeFragment");
+        Intent intent = _CrimeActivity.newIntentFromCF(getActivity(), "Test text from CrimeFragment");
     }
 
     public static String returnResult1(Intent result) {
