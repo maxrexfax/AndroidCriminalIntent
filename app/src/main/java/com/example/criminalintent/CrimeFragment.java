@@ -1,9 +1,12 @@
 package com.example.criminalintent;
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +19,14 @@ import androidx.fragment.app.Fragment;
 
 import java.util.UUID;
 
+import static android.app.Activity.RESULT_OK;
+
 public class CrimeFragment extends Fragment {
 
     private static final String ARG_CRIME_ID = "crime_id";
 
+    private final String TAG = "CrimeApp";
+    private static final String TEXT_KEY = "Crime.App.Key";
     private Crime _Crime;
     private EditText _TitleField;
     private Button _DateButton;
@@ -59,6 +66,8 @@ public class CrimeFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence c, int start, int count, int after) {
                 _Crime.setTitle(c.toString());
+                saveDataToIntent(_TitleField.getText().toString());
+
             }
 
             @Override
@@ -83,5 +92,55 @@ public class CrimeFragment extends Fragment {
         });
 
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        logDataInCrimeFragment("CrimeFragment onStart() called");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        logDataInCrimeFragment("CrimeFragment onPause() called");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        logDataInCrimeFragment("CrimeFragment onResume() called");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        returnResult();
+        saveDataToIntent(_TitleField.getText().toString());
+        logDataInCrimeFragment("CrimeFragment onStop() called");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "CrimeFragment onDestroy() called");
+    }
+
+    public void returnResult() {
+        Intent intent = CrimeActivity.newIntentFromCF(getActivity(), "Test text from CrimeFragment");
+    }
+
+    public static String returnResult1(Intent result) {
+        return result.getStringExtra(TEXT_KEY);
+    }
+
+    public void saveDataToIntent(String textToSend) {
+        Intent data = new Intent();
+        data.putExtra(TEXT_KEY, textToSend);
+        getActivity().setResult(RESULT_OK, data);
+    }
+
+    private void logDataInCrimeFragment(String text) {
+        //Log.d(TAG, text);
     }
 }

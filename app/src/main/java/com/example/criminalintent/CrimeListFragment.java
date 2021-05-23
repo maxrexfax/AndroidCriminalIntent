@@ -2,6 +2,7 @@ package com.example.criminalintent;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class CrimeListFragment extends Fragment {
+
+    private static final int REQUEST_CRIME = 1;
+    private final String TAG = "CrimeApp";
 
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
@@ -40,6 +44,7 @@ public class CrimeListFragment extends Fragment {
         } else {
             mAdapter.notifyDataSetChanged();
         }
+
     }
 
     private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -72,9 +77,25 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
+            logDataInCrimeListFragment("CrimeListFragment onClick() called");
             //Toast.makeText(getActivity(), mCrime.getTitle() + " clicked!", Toast.LENGTH_SHORT).show();
-            Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
+            //Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
+            Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
             startActivity(intent);
+            //startActivityForResult(intent, REQUEST_CRIME);
+        }
+
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        logDataInCrimeListFragment("CrimeListFragment onActivityResult worked, requestCode=" + requestCode);
+
+        if (requestCode == REQUEST_CRIME) {
+            String textFromCrimeFragment = CrimeFragment.returnResult1(data);
+            logDataInCrimeListFragment("CrimeListFragment onActivityResult() tmp:" + textFromCrimeFragment);
+            //Log.d(TAG, "CrimeListFragment onActivityResult TITLE" + title + " isChecked:" + isSolved);
         }
     }
 
@@ -108,6 +129,34 @@ public class CrimeListFragment extends Fragment {
     @Override
     public void onResume() {//to return edited data from CrimeActivity
         super.onResume();
+        logDataInCrimeListFragment("CrimeListFragment onResume() called");
         updateUI();
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        logDataInCrimeListFragment("CrimeListFragment onStart() called");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        logDataInCrimeListFragment("CrimeListFragment onPause() called");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        logDataInCrimeListFragment("CrimeListFragment onStop() called");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        logDataInCrimeListFragment("CrimeListFragment onDestroy() called");
+    }
+
+    private void logDataInCrimeListFragment(String text) {
+        //Log.d(TAG, text);
     }
 }
