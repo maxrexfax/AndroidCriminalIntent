@@ -1,6 +1,7 @@
 package com.example.criminalintent;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -17,6 +18,7 @@ import android.widget.EditText;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import java.util.Date;
 import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
@@ -25,6 +27,8 @@ public class CrimeFragment extends Fragment {
 
     private static final String ARG_CRIME_ID = "crime_id";
     private static final String DIALOG_DATE = "DialogDate";
+
+    private static final int REQUEST_DATE = 0;
 
     private final String TAG = "CrimeApp";
     private static final String TEXT_KEY = "Crime.App.Key";
@@ -78,12 +82,13 @@ public class CrimeFragment extends Fragment {
         });
         String formattedDate = (android.text.format.DateFormat.format("EEEE, MMM dd, yyyy", _Crime.getDate())).toString();
         _DateButton = (Button)v.findViewById(R.id.crime_date);
-        _DateButton.setText(formattedDate);//Tuesday, Jul 22, 2015
+        updateDate();
         _DateButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 FragmentManager fragmentManager = getFragmentManager();
-                DatePickerFragment dialog = new DatePickerFragment();
+                DatePickerFragment dialog = DatePickerFragment.newInstance(_Crime.getDate());
+                dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);
                 dialog.show(fragmentManager, DIALOG_DATE);
             }
         });
@@ -100,6 +105,23 @@ public class CrimeFragment extends Fragment {
         });
 
         return v;
+    }
+
+    @Override
+    public void onActivityResult (int requestCode, int resultCode, Intent data) {
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+
+        if (requestCode == REQUEST_DATE) {
+            Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+            _Crime.setDate(date);
+            updateDate();
+        }
+    }
+
+    private void updateDate() {
+        _DateButton.setText(_Crime.getDate().toString());
     }
 
     @Override
