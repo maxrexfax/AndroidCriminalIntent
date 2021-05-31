@@ -15,6 +15,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import java.util.UUID;
 
@@ -23,6 +24,7 @@ import static android.app.Activity.RESULT_OK;
 public class CrimeFragment extends Fragment {
 
     private static final String ARG_CRIME_ID = "crime_id";
+    private static final String DIALOG_DATE = "DialogDate";
 
     private final String TAG = "CrimeApp";
     private static final String TEXT_KEY = "Crime.App.Key";
@@ -77,7 +79,14 @@ public class CrimeFragment extends Fragment {
         String formattedDate = (android.text.format.DateFormat.format("EEEE, MMM dd, yyyy", _Crime.getDate())).toString();
         _DateButton = (Button)v.findViewById(R.id.crime_date);
         _DateButton.setText(formattedDate);//Tuesday, Jul 22, 2015
-        _DateButton.setEnabled(false);
+        _DateButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getFragmentManager();
+                DatePickerFragment dialog = new DatePickerFragment();
+                dialog.show(fragmentManager, DIALOG_DATE);
+            }
+        });
 
         _SolvedCheckBox = (CheckBox)v.findViewById(R.id.crime_solved);
         _SolvedCheckBox.setChecked(_Crime.isSolved());
