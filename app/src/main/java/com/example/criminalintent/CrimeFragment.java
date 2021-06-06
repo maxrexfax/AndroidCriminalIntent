@@ -35,6 +35,7 @@ public class CrimeFragment extends Fragment {
     private Crime _Crime;
     private EditText _TitleField;
     private Button _DateButton;
+    private Button _TimeButton;
     private CheckBox _SolvedCheckBox;
 
     public static CrimeFragment newInstance(UUID crimeId) {
@@ -86,10 +87,17 @@ public class CrimeFragment extends Fragment {
         _DateButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                FragmentManager manager = getFragmentManager();
-                DatePickerFragment dialog = DatePickerFragment.newInstance(_Crime.getDate());
-                dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);//сам себя назначил целевым фрагментом
-                dialog.show(manager, DIALOG_DATE);
+                setDateAndTime();
+            }
+        });
+
+        String formattedTime = (android.text.format.DateFormat.format("HH:mm:ss", _Crime.getDate())).toString();
+        _TimeButton = (Button)v.findViewById(R.id.crime_time);
+        _TimeButton.setText("Time:" + formattedTime);
+        _TimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setDateAndTime();
             }
         });
 
@@ -105,6 +113,13 @@ public class CrimeFragment extends Fragment {
         });
 
         return v;
+    }
+
+    private void setDateAndTime() {
+        FragmentManager manager = getFragmentManager();
+        DatePickerFragment dialog = DatePickerFragment.newInstance(_Crime.getDate());
+        dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);//сам себя назначил целевым фрагментом
+        dialog.show(manager, DIALOG_DATE);
     }
 
     @Override
