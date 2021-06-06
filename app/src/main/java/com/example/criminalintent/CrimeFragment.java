@@ -132,6 +132,7 @@ public class CrimeFragment extends Fragment {
             Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             _Crime.setDate(date);
             _DateButton.setText(_Crime.getDate().toString());
+            _TimeButton.setText((android.text.format.DateFormat.format("HH:mm:ss", _Crime.getDate())).toString());
         }
     }
 
