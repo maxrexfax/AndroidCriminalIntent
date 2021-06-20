@@ -115,14 +115,14 @@ public class CrimeFragment extends Fragment {
         return v;
     }
 
-    private void setDateAndTime() {
+    private void setDateAndTime() {//show dialog to edit datetime
         FragmentManager manager = getFragmentManager();
         DatePickerFragment dialog = DatePickerFragment.newInstance(_Crime.getDate());
         dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);//сам себя назначил целевым фрагментом
         dialog.show(manager, DIALOG_DATE);
     }
 
-    @Override
+    @Override//after closing dialog return data from it and set Date and Time
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK) {
             return;
